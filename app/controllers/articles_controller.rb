@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @card.update(article_params)
+      if @article.update(article_params)
         format.html { redirect_to @article, notice: "Article was successfully updated." }
         # format.json { render :show, status: :ok, location: @card }
       else
@@ -47,10 +47,12 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article.destroy
-    respond_to do |format|
-      format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
-      # format.json { head :no_content }
+    if @article.destroy
+      respond_to do |format|
+        format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
+        # format.json { head :no_content }
+      end
+    else
     end
   end
 
@@ -61,7 +63,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    puts params.require(:article).permit(:title, :description)
     params.require(:article).permit(:title, :description)
   end
 end
